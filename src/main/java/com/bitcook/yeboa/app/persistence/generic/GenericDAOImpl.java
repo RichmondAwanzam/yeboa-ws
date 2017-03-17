@@ -15,6 +15,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.transaction.annotation.Transactional;
+
+
 
 
 
@@ -515,16 +518,9 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 	
 	@Override
 	public T save(T entity) {
-
-		EntityTransaction transaction = em.getTransaction();
 		 try {
-			 transaction.begin();
 			 em.persist(entity);
-			 transaction.commit();
-			 
 		} catch (Exception e) {
-
-			transaction.rollback();
 		} 
 		finally {
 			em.close();
@@ -536,20 +532,21 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void delete(T entity) {
-		EntityTransaction transaction = em.getTransaction();
+	public boolean  delete(T entity) {
+		boolean delted= false;
 		try {
-			transaction.begin();
 			//Merge the entity to the manager
 			T mergedEntity = em.merge(entity);
 			em.remove(mergedEntity);
-			transaction.commit();
+			delted = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		} finally {
 			em.close();
 		} 
+		
+		return delted;
 	}
 	
 	@Override
@@ -570,23 +567,18 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 	
 
 	@Override
-	public T update(T entity) {
-		EntityTransaction transaction = em.getTransaction();
+	public boolean update(T entity) {
+		boolean isUpdated = false;
 		T updated = null;
 		try {
-			transaction.begin();
 			updated = em.merge(entity);
-			//log.info("UPDATE " + getEntityClass().getSimpleName() + "SET VALUES " + entity.toString() );
-			transaction.commit();
+			isUpdated= true;
 		} catch (Exception e) {
-//			log.error(GenericDAOImpl.class.getSimpleName(), "update", "Exception -> UPDATE " + getEntityClass().getSimpleName() + "SET  VALUES " + entity.toString() , e);
 
-			transaction.rollback();
 		} finally {
 			em.close();
 		}
-		 
-		return updated;
+		return isUpdated;
 	}
 	
 	public int updateByNamedQuery(final String queryName, Object... params) {

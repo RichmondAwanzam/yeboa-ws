@@ -3,6 +3,7 @@ package com.bitcook.yeboa.app.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcook.yeboa.app.dao.impl.PatientDAOImpl;
 import com.bitcook.yeboa.app.models.Patient;
@@ -13,9 +14,10 @@ public class PatientServiceImpl implements PatientService {
 	private PatientDAOImpl patientDao;
 	
 	@Override
+	@Transactional("transactionManager")
 	public Patient createPatient(Patient patient) {
-		patientDao.save(patient);
-		return patient;
+		
+		return patientDao.save(patient);
 	}
 
 	@Override
@@ -29,13 +31,15 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
+	@Transactional("transactionManager")
 	public boolean deletePatient(Long id) {
-		return false;
+		return patientDao.delete(patientDao.findById(id));
 	}
 
 	@Override
+	@Transactional("transactionManager")
 	public boolean updatePatient(Patient patient) {
-		return false;
+		return patientDao.update(patient);
 	}
 
 	public void setPatientDao(PatientDAOImpl patientDao) {

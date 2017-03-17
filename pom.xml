@@ -10,6 +10,7 @@
 	<name>yeboa</name>
 
 
+
 	<properties>
 		<spring.version>4.1.4.RELEASE</spring.version>
 		<spring.security.version>3.2.5.RELEASE</spring.security.version>
@@ -159,6 +160,12 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 
+		<!-- uploading multi-parts -->
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>1.8</version>
+		</dependency>
 		<!-- testing -->
 		<!-- Jersey-client -->
 		<dependency>

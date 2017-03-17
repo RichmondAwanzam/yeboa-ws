@@ -1,12 +1,18 @@
 package com.bitcook.yeboa.app.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +27,17 @@ public class PatientCondition implements Serializable {
 	@Column(name = "description")
 	private String description = "";
 
+	@OneToMany(mappedBy = "condition", targetEntity = Needs.class, fetch = FetchType.LAZY)
+	private List<Needs> patientNeeds = new ArrayList<Needs>();
+	
+	@ManyToOne
+	@JoinColumn(name ="diagnosis_id")
+	private Diagnosis diagnosis;
+	
+	@ManyToOne
+	@JoinColumn(name="patient_id", referencedColumnName="id")
+	private Patient patient;
+	
 	public Long getId() {
 		return id;
 	}
