@@ -17,8 +17,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.bitcook.yeboa.app.helpers.DateISO8601Adapter;
 
 @XmlRootElement
 @Entity
@@ -83,6 +86,7 @@ public class Patient implements Serializable {
 
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
+	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
 	private Date createdDate;
 
 	@Column(name = "updated_date")
@@ -240,7 +244,4 @@ public class Patient implements Serializable {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
-	
-
 }

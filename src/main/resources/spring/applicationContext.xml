@@ -34,6 +34,7 @@
     </bean>     
        
     	
+    	
 	<bean id="patientDao" class="com.bitcook.yeboa.app.dao.impl.PatientDAOImpl"/>	
     <bean id="patientService" class="com.bitcook.yeboa.app.services.PatientServiceImpl" />	
   
