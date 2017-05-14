@@ -16,39 +16,40 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bitcook.yeboa.app.models.Campaign;
 import com.bitcook.yeboa.app.models.Patient;
+import com.bitcook.yeboa.app.services.CampaignService;
 import com.bitcook.yeboa.app.services.PatientService;
 import com.bitcook.yeboa.app.utils.FileUtils;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
+@Path("campaign")
+public class CampaignApiController {
 
-@Path("/patients")
-public class PatientsAPIController {
-
-	@Context ServletContext context;
+@Context ServletContext context;
 	
 	@Autowired
-	private PatientService patientService;
+	private CampaignService campaignService;
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-	public List<Patient> getPatients(){
+	public List<Campaign> getCamapigns(){
 		
-		return patientService.getPatients();
+		return campaignService.getCampaigns();
 	}
 	
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addPatient(Patient patient){
-		Patient p = patientService.createPatient(patient);
+	public Response addPatient(Campaign camapign){
+		Campaign c = campaignService.createCampaign(camapign);
 		Response response = null;
-		if (p.getId()!=null&& !p.getId().equals("")) {
-			response = Response.ok(p).build();
+		if (c.getId()!=null&& !c.getId().equals("")) {
+			response = Response.ok(c).build();
 		}else{
 			response = Response.notModified().build();
 		}
@@ -58,9 +59,9 @@ public class PatientsAPIController {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updatePatient(Patient patient){
+	public Response updateCampaign(Campaign campaign){
 		Response response= null;
-		if (patientService.updatePatient(patient)) {
+		if (campaignService.updateCampaign(campaign)) {
 			response = Response.ok().build();
 		}else{
 			response = Response.notModified().build();
@@ -122,10 +123,10 @@ public class PatientsAPIController {
 	}
 	
 	@DELETE
-	@Path("/{patientId}")
-	public Response deletePatients(@PathParam("patientId") long patientId){
+	@Path("/{id}")
+	public Response deletePatients(@PathParam("id") long id){
 		Response response= null;
-		if (patientService.deletePatient(patientId)) {
+		if (campaignService.deleteCampaign(id)) {
 			response = Response.ok().build();
 		}else{
 			response = Response.notModified().build();

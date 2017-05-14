@@ -27,9 +27,6 @@ import com.bitcook.yeboa.app.helpers.DateISO8601Adapter;
 @Entity
 @Table(name = "patients")
 public class Patient implements Serializable {
-
-	
-	
 	/**
 	 * 
 	 */
@@ -76,7 +73,10 @@ public class Patient implements Serializable {
 	@Column(name = "nationality")
 	private String nationality;
 	
-	
+
+
+	@Column(name = "cover_image_url")
+	private String coverImageUrl;
 
 	@Column(name = "created_by")
 	private String createdBy = "";
@@ -244,4 +244,14 @@ public class Patient implements Serializable {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+
+	public String getCoverImageUrl() {
+		return coverImageUrl;
+	}
+
+	public void setCoverImageUrl(String coverImageUrl) {
+		this.coverImageUrl = coverImageUrl;
+	}
+	
+	
 }
