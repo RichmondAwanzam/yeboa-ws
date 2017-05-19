@@ -5,17 +5,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 
 import com.bitcook.yeboa.app.helpers.DateISO8601Adapter;
 
@@ -86,24 +91,26 @@ public class Campaign {
 
 //	
 //	
-//	@OneToMany(mappedBy = "campaign", targetEntity = CampaignMedia.class, fetch = FetchType.EAGER)
-//	private List<User> donors = new ArrayList<>();
-//	
-//	@OneToMany(mappedBy = "campaign", targetEntity = CampaignMedia.class, fetch = FetchType.EAGER)
-//	private List<User> doctorsEndorsed = new ArrayList<>();
-//	
-//	@OneToMany(mappedBy = "campaign", targetEntity = CampaignMedia.class, fetch = FetchType.EAGER)
-//	private List<User> followers = new ArrayList<>();
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "campaign", cascade=CascadeType.ALL)
+	private List<CampaignDonations> donations = new ArrayList<>();
+	
+	@ManyToMany(cascade= CascadeType.ALL)
+	@JoinTable(name ="campaign_endorses", 
+			joinColumns = {	@JoinColumn(name="campaign_id")},
+			inverseJoinColumns = {@JoinColumn(name="doctor_id")}
+	)
+	private List<User> doctorsEndorsed = new ArrayList<>();
+	
+	@ManyToMany(cascade= CascadeType.ALL)
+	@JoinTable(name ="campaign_followers", 
+			joinColumns = {	@JoinColumn(name="campaign_id")},
+			inverseJoinColumns = {@JoinColumn(name="follower_id")}
+	)
+	private List<User> followers = new ArrayList<>();
 	
 	
 	@OneToMany(mappedBy = "campaign", targetEntity = CampaignMedia.class, fetch = FetchType.EAGER)
 	private List<CampaignMedia> media = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "paidToCampaign", targetEntity = CampaignDonations.class, fetch = FetchType.EAGER)
-	private List<CampaignDonations> payments = new ArrayList<>();
-	
-	
-	
 	
 	public Long getId() {
 		return id;
@@ -213,36 +220,33 @@ public class Campaign {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-//	public List<User> getDonors() {
-//		return donors;
-//	}
-//	public void setDonors(List<User> donors) {
-//		this.donors = donors;
-//	}
-//	public List<User> getDoctorsEndorsed() {
-//		return doctorsEndorsed;
-//	}
-//	public void setDoctorsEndorsed(List<User> doctorsEndorsed) {
-//		this.doctorsEndorsed = doctorsEndorsed;
-//	}
-//	public List<User> getFollowers() {
-//		return followers;
-//	}
-//	public void setFollowers(List<User> followers) {
-//		this.followers = followers;
-//	}
+
+	public List<User> getDoctorsEndorsed() {
+		return doctorsEndorsed;
+	}
+	public void setDoctorsEndorsed(List<User> doctorsEndorsed) {
+		this.doctorsEndorsed = doctorsEndorsed;
+	}
+	public List<User> getFollowers() {
+		return followers;
+	}
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
 	public List<CampaignMedia> getMedia() {
 		return media;
 	}
 	public void setMedia(List<CampaignMedia> media) {
 		this.media = media;
 	}
-	public List<CampaignDonations> getPayments() {
-		return payments;
+	public List<CampaignDonations> getDonations() {
+		return donations;
 	}
-	public void setPayments(List<CampaignDonations> payments) {
-		this.payments = payments;
+	public void setDonations(List<CampaignDonations> donations) {
+		this.donations = donations;
 	}
+
+	
 	
 	
 	

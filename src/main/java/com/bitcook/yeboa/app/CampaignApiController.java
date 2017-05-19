@@ -1,6 +1,7 @@
 package com.bitcook.yeboa.app;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -21,9 +22,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bitcook.yeboa.app.models.Campaign;
-import com.bitcook.yeboa.app.models.Patient;
 import com.bitcook.yeboa.app.services.CampaignService;
-import com.bitcook.yeboa.app.services.PatientService;
 import com.bitcook.yeboa.app.utils.FileUtils;
 
 @Path("campaign")
@@ -55,6 +54,47 @@ public class CampaignApiController {
 		}
 		return response;
 	}
+	
+	@POST
+	@Path("/campaign")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createCampaign(@FormDataParam("title") String title,@FormDataParam("name") String name
+			,@FormDataParam("amount") double amount,@FormDataParam("description") String desc,
+			@FormDataParam("condition") String condition,@FormDataParam("diagnosis") String diagnosis,
+		@FormDataParam("campaign_pic") InputStream uploadedInputStream,
+		@FormDataParam("campaign_pic") FormDataContentDisposition fileDetail) {
+
+		Campaign camp = new Campaign();
+		camp.setCondition(condition);
+		camp.setDiagnosis(diagnosis);
+		camp.setDescription(desc);
+		camp.setTitle(title);
+		camp.setAmountDonated(BigDecimal.valueOf(amount));
+		
+		String rootPath =context.getRealPath("/");
+		String uploadedFileLocation = rootPath + fileDetail.getFileName();
+
+		// save it
+		
+		try {
+			FileUtils.writeToFile(uploadedInputStream, uploadedFileLocation);
+			camp.setCoverImageUrl(uploadedFileLocation);
+		} catch (Exception e) {
+		}
+		
+		Campaign c = campaignService.createCampaign(camp);
+		Response response = null;
+		if (c.getId()!=null&& !c.getId().equals("")) {
+			response = Response.ok(c).build();
+		}else{
+			response = Response.notModified().build();
+		}
+		return response;
+
+	}
+	
+	
 	
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
@@ -90,26 +130,7 @@ public class CampaignApiController {
 
 	}
 	
-	@POST
-	@Path("/campaign")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createCampaign(@FormDataParam("title") String title,
-		@FormDataParam("campaign_pic") InputStream uploadedInputStream,
-		@FormDataParam("campaign_pic") FormDataContentDisposition fileDetail) {
 
-		System.out.println("title reeived is:::: "+title);
-		String rootPath =context.getRealPath("/");
-		String uploadedFileLocation = rootPath + fileDetail.getFileName();
-
-		// save it
-	FileUtils.writeToFile(uploadedInputStream, uploadedFileLocation);
-
-		String output = "File uploaded to : " + uploadedFileLocation;
-
-		return Response.status(200).entity(output).build();
-
-	}
 	
 	
 	@GET
