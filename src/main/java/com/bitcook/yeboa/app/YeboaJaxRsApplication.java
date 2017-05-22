@@ -1,9 +1,13 @@
 package com.bitcook.yeboa.app;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.EncodingFilter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
+import com.bitcook.yeboa.app.mappers.JacksonJsonCollectionMapper;
 
 /**
  * Registers the components to be used by the JAX-RS application
@@ -36,10 +40,11 @@ public class YeboaJaxRsApplication extends ResourceConfig {
 //		register(NotFoundExceptionMapper.class);
 //
 //		// register features
-//		register(JacksonFeature.class);
+		//register(JacksonFeature.class);
+		//register(Jackson2ObjectMapperBuilder.class);
 		register(EntityFilteringFeature.class);
+		register(JacksonJsonCollectionMapper.class);
 		EncodingFilter.enableFor(this, GZipEncoder.class);		
-		
 //		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE, new Annotation[] {PodcastDetailedView.Factory.get()});
 	}
 }

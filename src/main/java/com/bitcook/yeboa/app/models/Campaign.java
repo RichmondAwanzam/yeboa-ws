@@ -19,8 +19,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.bitcook.yeboa.app.helpers.DateISO8601Adapter;
 
@@ -91,9 +93,12 @@ public class Campaign {
 
 //	
 //	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "campaign", cascade=CascadeType.ALL)
+	@JsonIgnore
 	private List<CampaignDonations> donations = new ArrayList<>();
 	
+	@JsonIgnore
 	@ManyToMany(cascade= CascadeType.ALL)
 	@JoinTable(name ="campaign_endorses", 
 			joinColumns = {	@JoinColumn(name="campaign_id")},
@@ -101,6 +106,7 @@ public class Campaign {
 	)
 	private List<User> doctorsEndorsed = new ArrayList<>();
 	
+	@JsonIgnore
 	@ManyToMany(cascade= CascadeType.ALL)
 	@JoinTable(name ="campaign_followers", 
 			joinColumns = {	@JoinColumn(name="campaign_id")},

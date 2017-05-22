@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="users")
 public  class User extends AuditedObject implements Serializable{
@@ -53,6 +55,7 @@ public  class User extends AuditedObject implements Serializable{
 		this.fullname = fullname;
 	}
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<CampaignDonations> donations = new ArrayList<>();
 	

@@ -40,6 +40,14 @@ public class CampaignApiController {
 		return campaignService.getCampaigns();
 	}
 	
+	@GET
+	@Path("/{campaignId}")
+	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+	public Campaign getCamapignsById(@PathParam("campaignId") Long campaignId){
+		
+		return campaignService.findCampaignById(campaignId);
+	}
+	
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

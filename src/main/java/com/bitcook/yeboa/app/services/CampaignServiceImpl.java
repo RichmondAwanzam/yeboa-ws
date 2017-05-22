@@ -20,6 +20,7 @@ public class CampaignServiceImpl implements CampaignService {
 	}
 
 	@Override
+	@Transactional("transactionManager")
 	public List<Campaign> getCampaigns() {
 		return campaignDao.findAll();
 	}
