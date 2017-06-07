@@ -11,6 +11,7 @@
 	<class>com.bitcook.yeboa.app.models.CampaignDonations</class>
 
 	<class>com.bitcook.yeboa.app.models.User</class>
+	<class>com.bitcook.yeboa.app.models.CampaignComments</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/yeboa"/>

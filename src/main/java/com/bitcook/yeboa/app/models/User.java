@@ -59,11 +59,18 @@ public  class User extends AuditedObject implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<CampaignDonations> donations = new ArrayList<>();
 	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<CampaignComments> comments = new ArrayList<>();
+	
+	
+	
 	@ManyToMany(mappedBy="followers")
 	public List<Campaign> followingCamapigns = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="doctorsEndorsed")
 	public List<Campaign> endorsedCampaigns = new ArrayList<>();
+	
 	public List<CampaignDonations> getDonations() {
 		return donations;
 	}

@@ -36,6 +36,8 @@
 
 
 	<bean id="campaignDao" class="com.bitcook.yeboa.app.dao.impl.CampaignDAOImpl" />
+	<bean id="mediaDao" class="com.bitcook.yeboa.app.dao.impl.CampaignMediaDAOImpl" />
+	<bean id="commentsDao" class="com.bitcook.yeboa.app.dao.impl.CommentsDAOimpl" />
 	<bean id="patientDao" class="com.bitcook.yeboa.app.dao.impl.PatientDAOImpl" />
 	<bean id="patientService" class="com.bitcook.yeboa.app.services.PatientServiceImpl" />
 	<bean id="campaignService" class="com.bitcook.yeboa.app.services.CampaignServiceImpl" />

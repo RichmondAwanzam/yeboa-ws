@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -28,6 +28,7 @@ import com.bitcook.yeboa.app.helpers.DateISO8601Adapter;
 
 @Entity
 @Table(name="campaigns")
+@XmlRootElement
 public class Campaign {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -98,6 +99,12 @@ public class Campaign {
 	@JsonIgnore
 	private List<CampaignDonations> donations = new ArrayList<>();
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "campaign", cascade=CascadeType.ALL)
+	@JsonIgnore
+	private List<CampaignComments> comments = new ArrayList<>();
+	
+	
+	
 	@JsonIgnore
 	@ManyToMany(cascade= CascadeType.ALL)
 	@JoinTable(name ="campaign_endorses", 
@@ -116,6 +123,7 @@ public class Campaign {
 	
 	
 	@OneToMany(mappedBy = "campaign", targetEntity = CampaignMedia.class, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<CampaignMedia> media = new ArrayList<>();
 	
 	public Long getId() {
@@ -251,10 +259,10 @@ public class Campaign {
 	public void setDonations(List<CampaignDonations> donations) {
 		this.donations = donations;
 	}
-
-	
-	
-	
-	
-	
+	public List<CampaignComments> getComments() {
+		return comments;
+	}
+	public void setComments(List<CampaignComments> comments) {
+		this.comments = comments;
+	}
 }

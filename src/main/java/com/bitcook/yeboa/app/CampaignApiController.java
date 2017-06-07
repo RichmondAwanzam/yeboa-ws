@@ -1,5 +1,6 @@
 package com.bitcook.yeboa.app;
 
+import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,17 +20,22 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bitcook.yeboa.app.filters.LoggingResponseFilter;
 import com.bitcook.yeboa.app.models.Campaign;
+import com.bitcook.yeboa.app.models.CampaignMedia;
 import com.bitcook.yeboa.app.services.CampaignService;
 import com.bitcook.yeboa.app.utils.FileUtils;
 
 @Path("campaign")
 public class CampaignApiController {
+	private static final Logger logger = LoggerFactory.getLogger(CampaignApiController.class);
 
 @Context ServletContext context;
-	
+
 	@Autowired
 	private CampaignService campaignService;
 	
@@ -78,16 +84,20 @@ public class CampaignApiController {
 		camp.setDiagnosis(diagnosis);
 		camp.setDescription(desc);
 		camp.setTitle(title);
-		camp.setAmountDonated(BigDecimal.valueOf(amount));
+		camp.setPatientName(name);
+		camp.setTarget(BigDecimal.valueOf(amount));
+		camp.setAmountDonated(BigDecimal.valueOf(0));
+		 String rootPath =context.getRealPath("/");
 		
-		String rootPath =context.getRealPath("/");
-		String uploadedFileLocation = rootPath + fileDetail.getFileName();
+		String formattedFileName = fileDetail.getFileName()+FileUtils.getTimeStampForFileUpload();
+		
+		String uploadedFileLocation = rootPath + File.separator+formattedFileName;
 
 		// save it
 		
 		try {
 			FileUtils.writeToFile(uploadedInputStream, uploadedFileLocation);
-			camp.setCoverImageUrl(uploadedFileLocation);
+			camp.setCoverImageUrl(formattedFileName);
 		} catch (Exception e) {
 		}
 		
@@ -102,6 +112,42 @@ public class CampaignApiController {
 
 	}
 	
+	@POST
+	@Path("/{campaignId}/medias")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createMedias(@PathParam("campaignId") Long id,
+			@FormDataParam("medias") InputStream uploadedInputStream,
+			@FormDataParam("medias") FormDataContentDisposition fileDetail
+		) {
+		String rootPath =context.getRealPath("/");
+		Campaign camp = campaignService.findCampaignById(id);
+
+		String formattedFileName = fileDetail.getFileName()+FileUtils.getTimeStampForFileUpload();
+		
+		String uploadedFileLocation = rootPath + File.separator+formattedFileName;
+		CampaignMedia media = new CampaignMedia();
+		try {
+			FileUtils.writeToFile(uploadedInputStream, uploadedFileLocation);
+			
+			media.setFileName(formattedFileName);
+			media.setPath(formattedFileName);
+			media.setCampaign(camp);
+			logger.debug("Camapign is not null");
+			campaignService.createMedia(media);
+		} catch (Exception e) {
+		}
+
+	
+		Response response = null;
+		if (camp.getId()!=null&& !camp.getId().equals("")) {
+			response = Response.ok().build();
+		}else{
+			response = Response.notModified().build();
+		}
+		return response;
+
+	}
 	
 	
 	@PUT
@@ -118,25 +164,7 @@ public class CampaignApiController {
 		return response;
 	}
 	
-	@POST
-	@Path("/upload")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response uploadFile(
-		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail) {
 
-
-		String uploadedFileLocation = "H:\\" + fileDetail.getFileName();
-
-		// save it
-	FileUtils.writeToFile(uploadedInputStream, uploadedFileLocation);
-
-		String output = "File uploaded to : " + uploadedFileLocation;
-
-		return Response.status(200).entity(output).build();
-
-	}
 	
 
 	

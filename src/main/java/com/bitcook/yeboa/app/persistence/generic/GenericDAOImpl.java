@@ -31,7 +31,7 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 	private static final long serialVersionUID = -7941962712350546417L;
 
 	@PersistenceContext(unitName="yeboaPersistence")
-	private EntityManager em;
+	protected EntityManager em;
 	
 	@SuppressWarnings("unchecked")
 	public  GenericDAOImpl(){
