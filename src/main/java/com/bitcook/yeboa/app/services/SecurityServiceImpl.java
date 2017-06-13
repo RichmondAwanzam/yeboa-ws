@@ -45,12 +45,20 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 	@PersistenceContext(unitName="yeboaPersistence")
 	protected EntityManager em;
 	
+	
+	/*
+	 * save logon user into db anytime a user logs in.
+	 */
 	@Override
 	public void saveLoggedOnUser(Security_LogonAudit logonAudit) {
 		
 		logonAuditDao.save(logonAudit);
 	}
 	
+	/*
+	 * find all logins users in the system whose last login duration is less than a day
+	 * 
+	 */
 	@Override
 	public List<Security_LogonAudit> findAllLoggedOnUsers() {
 		
@@ -75,6 +83,7 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 		return loggedOnUsers;
 	}
 	
+	//returns a count for logon users
 	@Override
 	public Integer countAllLoggedOnUsers() {
 		
@@ -99,24 +108,29 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 		return logonAuditDao.findSingle("Security_LogonAudit.findByUsername", username);
 	}
 	
+	
+	//save new user on registration
 	@Override
 	public void saveUser(User user) {
 		
 		userDao.save(user);
 	}
 
+	//save update user information
 	@Override
 	public boolean updateUser(User user) {
 		
 		return userDao.update(user);
 	}
 
+	//save delete user from db
 	@Override
 	public void deleteUser(User user) {
 		
 		userDao.delete(user);
 	}
 
+	//find all users in db
 	@Override
 	public List<User> findAllUsers() {
 		
@@ -136,12 +150,14 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 		return accountManagers;
 	}
 
+	//find user by id
 	@Override
 	public User findUserById(Long id) {
 		
 		return userDao.findById(id);
 	}
 
+	//find user by username
 	@Override
 	public User findUserByName(String name) {
 		
@@ -150,18 +166,21 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 	
 
 
+	//save new user group
 	@Override
 	public void saveGroup(Security_Group group) {
 		
 		groupDao.save(group);
 	}
 
+	//update user group
 	@Override
 	public boolean updateGroup(Security_Group group) {
 		
 		return groupDao.update(group);
 	}
 
+	//delete user group
 	@Override
 	public void deleteGroup(Security_Group group) {
 		

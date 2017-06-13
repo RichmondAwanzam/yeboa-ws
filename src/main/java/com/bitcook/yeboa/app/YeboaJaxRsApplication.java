@@ -1,11 +1,9 @@
 package com.bitcook.yeboa.app;
 
-import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.message.GZipEncoder;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.EncodingFilter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.bitcook.yeboa.app.mappers.JacksonJsonCollectionMapper;
 
