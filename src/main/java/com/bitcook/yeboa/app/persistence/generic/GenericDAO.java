@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import com.bitcook.yeboa.app.models.Patient;
 
 /**
  * Generic DAO providing basic insertor update and delete operation

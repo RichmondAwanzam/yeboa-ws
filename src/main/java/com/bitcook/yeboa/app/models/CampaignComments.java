@@ -19,7 +19,27 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class CampaignComments implements Serializable {
 
 	public enum CommentType{
-		COMMENT , DOCTORS_TIP
+		COMMENT ("comment"), DOCTORS_TIP("tip");
+		private String name;
+
+		private CommentType(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+		
+		public static CommentType getCommentType(String commentType){
+			CommentType type = null;
+		    for (CommentType comment : CommentType.values()) {
+			if (comment.name.equals(commentType)) {
+			    type=comment;
+			    break;
+			}
+		    }
+		   return type;
+		}
 	}
 	/**
 	 * 

@@ -27,17 +27,11 @@ public class PatientCondition implements Serializable {
 	@Column(name = "description")
 	private String description = "";
 
-	@OneToMany(mappedBy = "condition", targetEntity = Needs.class, fetch = FetchType.LAZY)
-	private List<Needs> patientNeeds = new ArrayList<Needs>();
-	
 	@ManyToOne
 	@JoinColumn(name ="diagnosis_id")
 	private Diagnosis diagnosis;
 	
-	@ManyToOne
-	@JoinColumn(name="patient_id", referencedColumnName="id")
-	private Patient patient;
-	
+
 	public Long getId() {
 		return id;
 	}

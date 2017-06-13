@@ -37,7 +37,7 @@ public class Security_UserGroupAssociation implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="user_id", referencedColumnName="id")
-	private Security_User user;
+	private User user;
 
 //	Getters & Setters
 	
@@ -75,11 +75,11 @@ public class Security_UserGroupAssociation implements Serializable {
 		this.group = group;
 	}
 
-	public Security_User getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(Security_User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

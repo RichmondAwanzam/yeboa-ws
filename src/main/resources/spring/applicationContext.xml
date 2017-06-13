@@ -34,14 +34,18 @@
 	</bean>
 
 
+<bean id="logonAuditDao" class="com.bitcook.yeboa.app.dao.impl.SecurityLogonAuditDAOImpl" />
+<bean id="groupDao" class="com.bitcook.yeboa.app.dao.impl.SecurityGroupDAOImpl" />
+<bean id="userGroupAssociationDao" class="com.bitcook.yeboa.app.dao.impl.UserGroupAssociationDaoImpl" />
 
+
+	<bean id="roleDao" class="com.bitcook.yeboa.app.dao.impl.RoleDaoImpl" />
+	<bean id="userDao" class="com.bitcook.yeboa.app.dao.impl.UserDaoImpl" />
 	<bean id="campaignDao" class="com.bitcook.yeboa.app.dao.impl.CampaignDAOImpl" />
 	<bean id="mediaDao" class="com.bitcook.yeboa.app.dao.impl.CampaignMediaDAOImpl" />
 	<bean id="commentsDao" class="com.bitcook.yeboa.app.dao.impl.CommentsDAOimpl" />
-	<bean id="patientDao" class="com.bitcook.yeboa.app.dao.impl.PatientDAOImpl" />
-	<bean id="patientService" class="com.bitcook.yeboa.app.services.PatientServiceImpl" />
 	<bean id="campaignService" class="com.bitcook.yeboa.app.services.CampaignServiceImpl" />
-
+	<bean id="securityService" class="com.bitcook.yeboa.app.services.SecurityServiceImpl" />
 	<bean id="versionService"
 		class="com.bitcook.yeboa.app.resources.manifest.ManifestService" />
 

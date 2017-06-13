@@ -1,5 +1,6 @@
 package com.bitcook.yeboa.app;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -18,11 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bitcook.yeboa.app.filters.LoggingResponseFilter;
 import com.bitcook.yeboa.app.models.Campaign;
 import com.bitcook.yeboa.app.models.CampaignComments;
-import com.bitcook.yeboa.app.models.CampaignMedia;
+import com.bitcook.yeboa.app.models.CampaignComments.CommentType;
+import com.bitcook.yeboa.app.models.User;
 import com.bitcook.yeboa.app.services.CampaignService;
+import com.bitcook.yeboa.app.services.SecurityService;
 
 @Path("comment")
 public class CommentsApiController {
@@ -32,6 +34,8 @@ public class CommentsApiController {
 
 	@Autowired
 	private CampaignService campaignService;
+	@Autowired
+	private SecurityService securityService;
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
@@ -47,10 +51,14 @@ public class CommentsApiController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{campaignId}/{userId}")
 	public Response addPatient(CampaignComments comment,@PathParam("campaignId") Long campaignId,@PathParam("campaignId") Long userId,@QueryParam("type")String commentType){
-		CampaignComments c = campaignService.saveComment(comment);
+		
 		Campaign camp = campaignService.findCampaignById(campaignId);
-		c.setCampaign(camp);
-		//TODO: set comment type
+		User user = securityService.findUserById(userId);
+		comment.setCampaign(camp);
+		comment.setCommentType(CommentType.getCommentType(commentType));
+		comment.setUser(user);
+		comment.setDateCommented(new Date());
+		CampaignComments c = campaignService.saveComment(comment);
 		Response response = null;
 		if (c.getCampaign()!=null&& !c.getUser().equals("")) {
 			response = Response.ok(c).build();
