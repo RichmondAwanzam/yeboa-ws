@@ -1,7 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans	
 		http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -11,37 +10,49 @@
 		 
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
- 
+
 	<context:component-scan base-package="com.bitcook.yeboa.app.*" />
- 
+
 	<!-- ************ JPA configuration *********** -->
-	<tx:annotation-driven transaction-manager="transactionManager" />  
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
-   
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceXmlLocation" value="classpath:config/yeboa-persistence.xml" />
-        <property name="persistenceUnitName" value="yeboaPersistence" />        
-        <property name="dataSource" ref="yeboaDS" />
-        <property name="packagesToScan" value="com.bitcook.yeboa.*" />
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="showSql" value="true" />
-                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
-            </bean>
-        </property>
-    </bean>     
-       
-    	
-	<bean id="patientDao" class="com.bitcook.yeboa.app.dao.impl.PatientDAOImpl"/>	
-    <bean id="patientService" class="com.bitcook.yeboa.app.services.PatientServiceImpl" />	
-  
-    <bean id="versionService" class="com.bitcook.yeboa.app.resources.manifest.ManifestService" />
-    
-	<bean id="yeboaDS" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">
-	    <property name="jndiName" value="java:comp/env/jdbc/yeboaDB" />
-	    <property name="resourceRef" value="true" />        
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation" value="classpath:config/yeboa-persistence.xml" />
+		<property name="persistenceUnitName" value="yeboaPersistence" />
+		<property name="dataSource" ref="yeboaDS" />
+		<property name="packagesToScan" value="com.bitcook.yeboa.*" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+			</bean>
+		</property>
+	</bean>
+
+
+<bean id="logonAuditDao" class="com.bitcook.yeboa.app.dao.impl.SecurityLogonAuditDAOImpl" />
+<bean id="groupDao" class="com.bitcook.yeboa.app.dao.impl.SecurityGroupDAOImpl" />
+<bean id="userGroupAssociationDao" class="com.bitcook.yeboa.app.dao.impl.UserGroupAssociationDaoImpl" />
+
+
+	<bean id="roleDao" class="com.bitcook.yeboa.app.dao.impl.RoleDaoImpl" />
+	<bean id="userDao" class="com.bitcook.yeboa.app.dao.impl.UserDaoImpl" />
+	<bean id="campaignDao" class="com.bitcook.yeboa.app.dao.impl.CampaignDAOImpl" />
+	<bean id="mediaDao" class="com.bitcook.yeboa.app.dao.impl.CampaignMediaDAOImpl" />
+	<bean id="commentsDao" class="com.bitcook.yeboa.app.dao.impl.CommentsDAOimpl" />
+	<bean id="campaignService" class="com.bitcook.yeboa.app.services.CampaignServiceImpl" />
+	<bean id="securityService" class="com.bitcook.yeboa.app.services.SecurityServiceImpl" />
+	<bean id="versionService"
+		class="com.bitcook.yeboa.app.resources.manifest.ManifestService" />
+
+	<bean id="yeboaDS" class="org.springframework.jndi.JndiObjectFactoryBean"
+		scope="singleton">
+		<property name="jndiName" value="java:comp/env/jdbc/yeboaDB" />
+		<property name="resourceRef" value="true" />
 	</bean>
 
 </beans>

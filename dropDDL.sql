@@ -1,2 +1,28 @@
-DROP TABLE patients
+ALTER TABLE patient_condition DROP FOREIGN KEY FK_patient_condition_diagnosis_id
+ALTER TABLE diagnoses DROP KEY UNQ_diagnoses_0
+ALTER TABLE media DROP FOREIGN KEY FK_media_campaign_id
+ALTER TABLE campaign_donations DROP FOREIGN KEY FK_campaign_donations_campaign_id
+ALTER TABLE campaign_donations DROP FOREIGN KEY FK_campaign_donations_user_id
+ALTER TABLE comments DROP FOREIGN KEY FK_comments_user_id
+ALTER TABLE comments DROP FOREIGN KEY FK_comments_campaign_id
+ALTER TABLE security_groups DROP FOREIGN KEY FK_security_groups_role
+ALTER TABLE security_user_group_association DROP FOREIGN KEY FK_security_user_group_association_group_id
+ALTER TABLE security_user_group_association DROP FOREIGN KEY FK_security_user_group_association_user_id
+ALTER TABLE campaign_endorses DROP FOREIGN KEY FK_campaign_endorses_doctor_id
+ALTER TABLE campaign_endorses DROP FOREIGN KEY FK_campaign_endorses_campaign_id
+ALTER TABLE campaign_followers DROP FOREIGN KEY FK_campaign_followers_campaign_id
+ALTER TABLE campaign_followers DROP FOREIGN KEY FK_campaign_followers_follower_id
 DROP TABLE patient_condition
+DROP TABLE diagnoses
+DROP TABLE campaigns
+DROP TABLE media
+DROP TABLE campaign_donations
+DROP TABLE users
+DROP TABLE fidell
+DROP TABLE comments
+DROP TABLE security_groups
+DROP TABLE security_roles
+DROP TABLE security_logon_audit
+DROP TABLE security_user_group_association
+DROP TABLE campaign_endorses
+DROP TABLE campaign_followers

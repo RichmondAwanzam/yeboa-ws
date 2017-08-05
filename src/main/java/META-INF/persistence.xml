@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-<persistence-unit name="yeboa">
-	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>  
-	<class>com.bitcook.yeboa.app.models.Patient</class>    
+<persistence-unit name="yeboaPersistence">
+	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>    
 	<class>com.bitcook.yeboa.app.models.PatientCondition</class>    
+	<class>com.bitcook.yeboa.app.models.Diagnosis</class>   
+	<class>com.bitcook.yeboa.app.models.Campaign</class>  
+	<class>com.bitcook.yeboa.app.models.CampaignMedia</class> 
+	<class>com.bitcook.yeboa.app.models.CampaignDonations</class> 
+	<class>com.bitcook.yeboa.app.models.User</class>
+	<class>com.bitcook.yeboa.app.models.CampaignComments</class>
+	<class>com.bitcook.yeboa.app.models.Security_Group</class>
+	<class>com.bitcook.yeboa.app.models.Security_Role</class>
+	<class>com.bitcook.yeboa.app.models.Security_LogonAudit</class>
+	<class>com.bitcook.yeboa.app.models.Security_UserGroupAssociation</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/yeboa"/>

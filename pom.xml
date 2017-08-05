@@ -10,6 +10,7 @@
 	<name>yeboa</name>
 
 
+
 	<properties>
 		<spring.version>4.1.4.RELEASE</spring.version>
 		<spring.security.version>3.2.5.RELEASE</spring.security.version>
@@ -19,7 +20,13 @@
 		<jetty.maven.plugin.version>9.2.6.v20141205</jetty.maven.plugin.version> <!-- Adapt this to a version found on http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-maven-plugin/ -->
 		<logback.version>1.1.1</logback.version>
 		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
 	</properties>
+	
+	
 
 	<repositories>
 		<repository>
@@ -159,6 +166,11 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 
+
+		
+
+		
+
 		<!-- testing -->
 		<!-- Jersey-client -->
 		<dependency>
@@ -229,22 +241,40 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate4</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
-		</dependency>
+	<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt</artifactId>
+    <version>0.6.0</version>
+</dependency>
 	</dependencies>
 
 	<build>
 		<finalName>yeboa</finalName>
 		<plugins>
 			<!-- use the plugin to generate customed war name -->
+
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version> <!-- or whatever current version -->
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
 
 
 
@@ -260,8 +290,7 @@
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 					</archive>
-					<source>1.7</source>
-					<target>1.7</target>
+
 				</configuration>
 				<executions>
 					<execution>

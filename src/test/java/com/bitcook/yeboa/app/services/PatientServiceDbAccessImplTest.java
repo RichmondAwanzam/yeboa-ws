@@ -1,7 +1,6 @@
 package com.bitcook.yeboa.app.services;
 
-import static org.mockito.Mockito.*;
-
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,9 +11,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.bitcook.yeboa.app.dao.impl.PatientDAOImpl;
+import com.bitcook.yeboa.app.dao.impl.CampaignDAOImpl;
 import com.bitcook.yeboa.app.errorhandling.AppException;
-import com.bitcook.yeboa.app.models.Patient;
+import com.bitcook.yeboa.app.models.Campaign;
+
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientServiceDbAccessImplTest {
@@ -28,41 +29,31 @@ public class PatientServiceDbAccessImplTest {
 	@Rule
 	public ExpectedException exception = ExpectedException.none();	
 
-	PatientServiceImpl sut;//system under test
+	CampaignServiceImpl sut;//system under test
 	
 	@Mock
-	PatientDAOImpl patientDao;
+	CampaignDAOImpl campaignDao;
 	
 	
 	@Before
 	public void setUp() throws Exception {		
-		sut = new PatientServiceImpl();
-		sut.setPatientDao(patientDao);
+		sut = new CampaignServiceImpl();
+		sut.setCampaignDao(campaignDao);
 	}
 
-/*	@Test
+	@Test
 	public void testCreatePodcast_successful() throws AppException {
 		
-		when(podcastDao.getPodcastByFeed(SOME_PATIENT_USERNAME)).thenReturn(null);		
-		when(podcastDao.createPodcast(any(PodcastEntity.class))).thenReturn(CREATED_PATIENTS_RESOURCE_ID);
-		when(patientDao.save(any(Patient.class)).getId()).thenReturn(CREATED_PATIENTS_RESOURCE_ID);
-		Podcast podcast = new Podcast();
-		podcast.setFeed(SOME_PATIENT_USERNAME);
-		podcast.setTitle(SOME_TITLE);
-		Long createPodcast = sut.createPodcast(podcast);
 		
-		verify(podcastDao).getPodcastByFeed(SOME_PATIENT_USERNAME);//verifies if the method podcastDao.getPodcastByFeed has been called exactly once with that exact input parameter
-		verify(podcastDao, times(1)).getPodcastByFeed(SOME_PATIENT_USERNAME);//same as above
-		verify(podcastDao, times(1)).getPodcastByFeed(eq(SOME_PATIENT_USERNAME));//same as above
-		verify(podcastDao, times(1)).getPodcastByFeed(anyString());//verifies if the method podcastDao.getPodcastByFeed has been called exactly once with any string as input
-		verify(podcastDao, atLeastOnce()).getPodcastByFeed(SOME_PATIENT_USERNAME);//verifies if the method podcastDao.getPodcastByFeed has been called at least once with that exact input parameter		
-		verify(podcastDao, atLeast(1)).getPodcastByFeed(SOME_PATIENT_USERNAME);//verifies if the method podcastDao.getPodcastByFeed has been called at least once with that exact input parameter
-		verify(podcastDao, times(1)).createPodcast(any(PodcastEntity.class));
-		verify(podcastDao, never()).getLegacyPodcastById(anyLong());//verifies the method podcastDao.getLegacyPodcastById has never been called
-		
-		Assert.assertTrue(createPodcast == CREATED_PATIENTS_RESOURCE_ID);
+		Assert.assertEquals(4, 4);
 	}
-
+	
+	@Test
+	public void testCampaigns(){
+		List<Campaign> camps = sut.getCampaigns();
+		camps.size();
+	}
+/*
 	@Test(expected=AppException.class)	
 	public void testCreatePodcast_error() throws AppException {
 		

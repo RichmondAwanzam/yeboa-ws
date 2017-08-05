@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import com.bitcook.yeboa.app.models.Patient;
 
 /**
  * Generic DAO providing basic insertor update and delete operation
@@ -30,8 +29,9 @@ public interface GenericDAO<T, ID extends Serializable> {
      * delete an entity from the database.
      * 
      * @param entity the entity to delete
+     * @return 
      */
-    void delete(final T entity);
+    boolean delete(final T entity);
     void voidByNamedQuery(final String queryName, Object... params);
     
     
@@ -42,7 +42,7 @@ public interface GenericDAO<T, ID extends Serializable> {
      * @param entity the entity update
      */
     
-    T update(final T entity);
+    boolean update(final T entity);
     
     
     int updateByNamedQuery(final String queryName, Object... params);
