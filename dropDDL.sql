@@ -18,6 +18,7 @@ DROP TABLE campaigns
 DROP TABLE media
 DROP TABLE campaign_donations
 DROP TABLE users
+DROP TABLE fidell
 DROP TABLE comments
 DROP TABLE security_groups
 DROP TABLE security_roles

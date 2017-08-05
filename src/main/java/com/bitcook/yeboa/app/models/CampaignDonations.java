@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,16 +31,19 @@ public class CampaignDonations implements Serializable {
 	public enum PaymentType {
 		MOBILE_MONEY, CARD, EXPRESS_PAY, STRIPE
 	}
-
 	@Id
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	private Integer id;
+	
+
 	@ManyToOne
-	@JoinColumn(name = "campaign_id")
+	@JoinColumn(name = "campaign_id" , referencedColumnName="id")
 	@JsonIgnore
 	private Campaign campaign;
 
-	@Id
+
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id" , referencedColumnName="id")
 	@JsonIgnore
 	private User user;
 
@@ -51,6 +56,17 @@ public class CampaignDonations implements Serializable {
 
 	@Column(name = "payment_type")
 	private PaymentType paymentType;
+
+	
+	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public BigDecimal getAmount() {
 		return amount;

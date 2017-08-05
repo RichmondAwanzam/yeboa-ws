@@ -37,8 +37,6 @@ public interface SecurityService {
 
 	Security_Group findGroupByName(String name);
 
-	List<Security_Group> getViewerGroups();
-
 	User findUserByName(String name);
 	
 	void saveRole(Security_Role role);
@@ -72,6 +70,7 @@ public interface SecurityService {
 	
 	public List<Security_Group> findGroupsByType(boolean sysGroup);
 	
+	void authenticate(String login, String password) throws Exception;
 	
-	public List<User> findAllAccountManagersUsers();
+	
 }

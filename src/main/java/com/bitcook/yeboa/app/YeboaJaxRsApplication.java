@@ -5,6 +5,7 @@ import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.EncodingFilter;
 
+import com.bitcook.yeboa.app.filters.AuthorizationFilter;
 import com.bitcook.yeboa.app.mappers.JacksonJsonCollectionMapper;
 
 /**
@@ -42,6 +43,7 @@ public class YeboaJaxRsApplication extends ResourceConfig {
 		//register(Jackson2ObjectMapperBuilder.class);
 		register(EntityFilteringFeature.class);
 		register(JacksonJsonCollectionMapper.class);
+		register(AuthorizationFilter.class);
 		EncodingFilter.enableFor(this, GZipEncoder.class);		
 //		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE, new Annotation[] {PodcastDetailedView.Factory.get()});
 	}

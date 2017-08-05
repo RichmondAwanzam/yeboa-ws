@@ -18,5 +18,6 @@ public interface CampaignService {
 	
 	//get comments
 	List<CampaignComments> getComments();
+	List<CampaignComments> getCommentsByCampaignId(Long id);
 	CampaignComments saveComment(CampaignComments comment);
 }

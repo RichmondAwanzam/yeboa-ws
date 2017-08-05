@@ -2,6 +2,7 @@ package com.bitcook.yeboa.app.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,15 +13,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.bitcook.yeboa.app.utils.PasswordUtils;
+
 @Entity
 @Table(name="users")
+@NamedQueries({
+	@NamedQuery(name=User.FIND_BY_LOGIN_PASSWORD,query="SELECT u FROM User u WHERE u.username = :login AND u.passwordHash = :password")
+})
 public  class User extends AuditedObject implements Serializable{
+	public static final String FIND_BY_LOGIN_PASSWORD = "User.findByLoginAndPassword";
 	public enum UserType{
 		USER("user"),DOCTOR("doctor");
 			private String description;
@@ -42,6 +52,7 @@ public  class User extends AuditedObject implements Serializable{
 	
 	@Column(name="first_name")
 	private String firstname="";
+	
 	@Column(name="last_name")
 	private String lastname="";
 	
@@ -83,6 +94,13 @@ public  class User extends AuditedObject implements Serializable{
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, targetEntity=Security_UserGroupAssociation.class, fetch=FetchType.LAZY)
 	private List<Security_UserGroupAssociation> userGroupAssociations;
 	
+	
+	
+	@PrePersist
+	private void setup(){
+		this.setCreatedDate(new Date());
+		this.setPasswordHash(PasswordUtils.digestPassword(this.getPasswordHash()));
+	}
 	
 	public Long getId() {
 		return id;

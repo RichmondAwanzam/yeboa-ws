@@ -20,6 +20,7 @@ import com.bitcook.yeboa.app.models.Security_LogonAudit;
 import com.bitcook.yeboa.app.models.Security_Role;
 import com.bitcook.yeboa.app.models.Security_UserGroupAssociation;
 import com.bitcook.yeboa.app.models.User;
+import com.bitcook.yeboa.app.utils.PasswordUtils;
 
 
 
@@ -138,17 +139,7 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 	}
 	
 	
-	@Override
-	public List<User> findAllAccountManagersUsers() {
-		Security_Role role = roleDao.findById(3);
-		List<User> accountManagers = new ArrayList<>();
-		List<Security_UserGroupAssociation> groupsAssocs = userGroupAssociationDao.findByNamedQuery("securityUserGroupAssociation.findAccountManagerUsers",role);
-		
-		for (Security_UserGroupAssociation sug:groupsAssocs) {
-			accountManagers.add(sug.getUser());
-		}
-		return accountManagers;
-	}
+
 
 	//find user by id
 	@Override
@@ -211,10 +202,7 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 		return groupDao.findSingle("Security_Group.findGroupByName",name);
 	}
 	
-	@Override
-	public List<Security_Group> getViewerGroups() {
-		return groupDao.findByNamedQuery("Security_Group.findAllViewerGroups");
-	}
+
 
 	@Override
 	public void saveRole(Security_Role role) {
@@ -268,7 +256,16 @@ public class SecurityServiceImpl implements Serializable,SecurityService {
 		return groupDao.findByNamedQuery("Security_Group.findGroupByType", sysGroup);
 	}
 
-	
+	@Override
+    public void authenticate(String login, String password) throws Exception {
+        TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_LOGIN_PASSWORD, User.class);
+        query.setParameter("login", login);
+        query.setParameter("password", PasswordUtils.digestPassword(password));
+        User user = query.getSingleResult();
+
+        if (user == null)
+            throw new SecurityException("Invalid user/password");
+    }
 	
 	
 	

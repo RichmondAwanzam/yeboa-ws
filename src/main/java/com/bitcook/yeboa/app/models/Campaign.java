@@ -28,7 +28,6 @@ import com.bitcook.yeboa.app.helpers.DateISO8601Adapter;
 
 @Entity
 @Table(name="campaigns")
-@XmlRootElement
 public class Campaign {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -90,6 +89,7 @@ public class Campaign {
 
 	@Column(name = "updated_date")
 	@Temporal(TemporalType.TIMESTAMP)
+	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
 	private Date updateDate;
 
 //	

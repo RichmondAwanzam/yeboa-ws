@@ -76,4 +76,15 @@ public class CampaignServiceImpl implements CampaignService {
 	public CampaignComments saveComment(CampaignComments comment) {
 		return commentsDao.save(comment);
 	}
+	
+	
+	
+	public void setCamapignDao(CampaignDAOImpl dao){
+		this.campaignDao = dao;
+	}
+
+	@Override
+	public List<CampaignComments> getCommentsByCampaignId(Long id) {
+		return commentsDao.findByNamedQuery("findAllByCampaignId", id);
+	}
 }

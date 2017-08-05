@@ -26,7 +26,7 @@ import com.bitcook.yeboa.app.models.User;
 import com.bitcook.yeboa.app.services.CampaignService;
 import com.bitcook.yeboa.app.services.SecurityService;
 
-@Path("comment")
+@Path("/")
 public class CommentsApiController {
 	private static final Logger logger = LoggerFactory.getLogger(CommentsApiController.class);
 
@@ -37,11 +37,18 @@ public class CommentsApiController {
 	@Autowired
 	private SecurityService securityService;
 	
+	
+	public CommentsApiController(CampaignService campaignService, SecurityService securityService2){
+		this.campaignService = campaignService;
+		this.securityService = securityService2;
+	}
+	
+	
 	@GET
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-	public List<CampaignComments> getComments(){
-		
-		return campaignService.getComments();
+	public List<CampaignComments> getComments(@PathParam("campaignId")Long campaignId){
+		Long a = campaignId;
+		return campaignService.getCommentsByCampaignId(campaignId);
 	}
 	
 
@@ -49,8 +56,8 @@ public class CommentsApiController {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/{campaignId}/{userId}")
-	public Response addPatient(CampaignComments comment,@PathParam("campaignId") Long campaignId,@PathParam("campaignId") Long userId,@QueryParam("type")String commentType){
+	@Path("/{userId}")
+	public Response addPatient(CampaignComments comment,@PathParam("userId") Long campaignId,@PathParam("campaignId") Long userId,@QueryParam("type")String commentType){
 		
 		Campaign camp = campaignService.findCampaignById(campaignId);
 		User user = securityService.findUserById(userId);
@@ -60,7 +67,8 @@ public class CommentsApiController {
 		comment.setDateCommented(new Date());
 		CampaignComments c = campaignService.saveComment(comment);
 		Response response = null;
-		if (c.getCampaign()!=null&& !c.getUser().equals("")) {
+		
+		if (c.getCampaign()!=null && c.getUser()!= null && !c.getUser().equals("")) {
 			response = Response.ok(c).build();
 		}else{
 			response = Response.notModified().build();

@@ -5,9 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,6 +20,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="comments")
+@NamedQueries(value = {
+		@NamedQuery(name = "findAllByCampaignId", query ="SELECT c from CampaignComments c where c.campaign.id=?1")
+})
 public class CampaignComments implements Serializable {
 
 	public enum CommentType{
@@ -46,19 +53,22 @@ public class CampaignComments implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public enum PaymentType {
-		MOBILE_MONEY, CARD, EXPRESS_PAY, STRIPE
-	}
 
+	
 	@Id
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	private Integer id;
+	
+
+
 	@ManyToOne
-	@JoinColumn(name = "campaign_id")
+	@JoinColumn(name = "campaign_id" ,referencedColumnName="id")
 	@JsonIgnore
 	private Campaign campaign;
 
-	@Id
+
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id" , referencedColumnName="id")
 	@JsonIgnore
 	private User user;
 
@@ -110,6 +120,14 @@ public class CampaignComments implements Serializable {
 
 	public void setCommentType(CommentType commentType) {
 		this.commentType = commentType;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	

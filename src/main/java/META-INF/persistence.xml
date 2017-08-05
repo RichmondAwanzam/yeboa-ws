@@ -6,8 +6,7 @@
 	<class>com.bitcook.yeboa.app.models.Diagnosis</class>   
 	<class>com.bitcook.yeboa.app.models.Campaign</class>  
 	<class>com.bitcook.yeboa.app.models.CampaignMedia</class> 
-	<class>com.bitcook.yeboa.app.models.CampaignDonations</class>
-
+	<class>com.bitcook.yeboa.app.models.CampaignDonations</class> 
 	<class>com.bitcook.yeboa.app.models.User</class>
 	<class>com.bitcook.yeboa.app.models.CampaignComments</class>
 	<class>com.bitcook.yeboa.app.models.Security_Group</class>

@@ -28,6 +28,7 @@ import com.bitcook.yeboa.app.filters.LoggingResponseFilter;
 import com.bitcook.yeboa.app.models.Campaign;
 import com.bitcook.yeboa.app.models.CampaignMedia;
 import com.bitcook.yeboa.app.services.CampaignService;
+import com.bitcook.yeboa.app.services.SecurityService;
 import com.bitcook.yeboa.app.utils.FileUtils;
 
 @Path("campaign")
@@ -39,6 +40,8 @@ public class CampaignApiController {
 	@Autowired
 	private CampaignService campaignService;
 	
+	@Autowired
+	private SecurityService securityService;
 	@GET
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public List<Campaign> getCamapigns(){
@@ -52,6 +55,13 @@ public class CampaignApiController {
 	public Campaign getCamapignsById(@PathParam("campaignId") Long campaignId){
 		
 		return campaignService.findCampaignById(campaignId);
+	}
+	
+	
+	@Path("/{campaignId}/comment")
+	public CommentsApiController getCamapignsComments(@PathParam("campaignId") Long campaignId){
+		
+		return new CommentsApiController(campaignService ,securityService);
 	}
 	
 	
